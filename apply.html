@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ร่วมงานกับเรา | Social Impact Co., Ltd.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ===== Reset & Base ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Prompt', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #2b1d0e;
+    line-height: 1.6;
+    background: #fff8ee;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+  button { font-family: inherit; cursor: pointer; border: none; }
+  input, textarea { font-family: inherit; }
+
+  /* ===== Page System ===== */
+  .page { display: none; min-height: 100vh; animation: fadeIn 0.6s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== Background Scene (Welcome) ===== */
+  .welcome {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background:
+      radial-gradient(circle at 20% 20%, #ffd166 0%, transparent 45%),
+      radial-gradient(circle at 80% 0%,  #ff8c42 0%, transparent 50%),
+      linear-gradient(135deg, #ff7b1c 0%, #ffb347 45%, #ffd166 100%);
+    overflow: hidden;
+  }
+  .scene-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Floating decorative bubbles */
+  .bubble {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(2px);
+    animation: float 9s ease-in-out infinite;
+  }
+  .bubble.b1 { width: 90px;  height: 90px;  top: 12%; left: 8%;  animation-delay: 0s;   }
+  .bubble.b2 { width: 60px;  height: 60px;  top: 70%; left: 12%; animation-delay: 1.5s; }
+  .bubble.b3 { width: 110px; height: 110px; top: 18%; right: 10%; animation-delay: 3s;  }
+  .bubble.b4 { width: 50px;  height: 50px;  top: 65%; right: 18%; animation-delay: 4.5s;}
+  @keyframes float {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50%      { transform: translateY(-22px) scale(1.05); }
+  }
+
+  /* Welcome Card */
+  .welcome-card {
+    position: relative;
+    z-index: 2;
+    max-width: 720px;
+    width: 100%;
+    background: rgba(255,255,255,0.92);
+    border-radius: 28px;
+    padding: 48px 44px;
+    text-align: center;
+    box-shadow: 0 30px 80px rgba(120, 50, 0, 0.25), 0 0 0 1px rgba(255,255,255,0.6) inset;
+    backdrop-filter: blur(8px);
+  }
+  .badge {
+    display: inline-block;
+    padding: 6px 16px;
+    background: linear-gradient(135deg, #ff7b1c, #ffb347);
+    color: #fff;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 22px;
+    box-shadow: 0 6px 18px rgba(255, 123, 28, 0.35);
+  }
+  .welcome-card h1 {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 800;
+    line-height: 1.25;
+    background: linear-gradient(135deg, #ff5722 0%, #ff9800 50%, #ffc107 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 16px;
+  }
+  .welcome-card .subtitle {
+    font-size: clamp(15px, 1.6vw, 18px);
+    color: #5a4628;
+    font-weight: 400;
+    margin-bottom: 14px;
+  }
+  .welcome-card .role-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    background: #fff3e0;
+    border: 2px dashed #ff8a3d;
+    color: #b34a00;
+    border-radius: 14px;
+    font-weight: 600;
+    margin: 12px 0 28px;
+  }
+  .welcome-card p.lead {
+    font-size: 16px;
+    color: #594028;
+    margin: 0 auto 32px;
+    max-width: 560px;
+  }
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 28px 0 36px;
+  }
+  .pillar {
+    padding: 16px 12px;
+    background: linear-gradient(180deg, #fff7ec 0%, #ffe7c8 100%);
+    border-radius: 16px;
+    text-align: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .pillar:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(255, 123, 28, 0.2); }
+  .pillar .icon { font-size: 28px; margin-bottom: 6px; display:block; }
+  .pillar .label { font-size: 13px; font-weight: 600; color: #7a4b15; }
+  @media (max-width: 540px) {
+    .pillars { grid-template-columns: 1fr; }
+    .welcome-card { padding: 36px 24px; }
+  }
+
+  /* ===== Buttons ===== */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 38px;
+    font-size: 17px;
+    font-weight: 700;
+    border-radius: 14px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+    cursor: pointer;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #ff5722 0%, #ff9800 100%);
+    color: #fff;
+    box-shadow: 0 12px 30px rgba(255, 87, 34, 0.4);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 36px rgba(255, 87, 34, 0.55); }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-secondary {
+    background: #fff;
+    color: #b34a00;
+    border: 2px solid #ffb347;
+  }
+  .btn-secondary:hover { background: #fff3e0; }
+  .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
+
+  /* ===== Form Page ===== */
+  .form-page {
+    background:
+      linear-gradient(180deg, #fff8ee 0%, #fff 100%),
+      radial-gradient(circle at top right, #ffd166 0%, transparent 35%);
+    padding: 40px 20px 80px;
+  }
+  .form-wrapper {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .form-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .form-header h2 {
+    font-size: clamp(24px, 3vw, 34px);
+    font-weight: 800;
+    color: #b34a00;
+    margin-bottom: 8px;
+  }
+  .form-header p { color: #6e5236; font-size: 15px; }
+  .progress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .progress-step {
+    width: 36px; height: 4px;
+    border-radius: 4px;
+    background: #ffe0bd;
+    transition: background 0.3s ease;
+  }
+  .progress-step.active { background: linear-gradient(90deg, #ff5722, #ff9800); }
+
+  .form-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 36px;
+    box-shadow: 0 20px 60px rgba(120, 50, 0, 0.10), 0 0 0 1px #ffe5c2;
+  }
+  @media (max-width: 540px) { .form-card { padding: 24px; } }
+
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #b34a00;
+    margin: 28px 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title:first-child { margin-top: 0; }
+  .section-title .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff5722, #ff9800);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 540px) { .field-grid { grid-template-columns: 1fr; } }
+
+  .field { margin-bottom: 18px; }
+  .field label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #4a3722;
+    margin-bottom: 6px;
+  }
+  .field label .req { color: #e34d2b; margin-left: 3px; }
+  .field input, .field textarea {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 15px;
+    color: #2b1d0e;
+    background: #fffaf3;
+    border: 2px solid #ffe0bd;
+    border-radius: 12px;
+    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  }
+  .field input:focus, .field textarea:focus {
+    outline: none;
+    border-color: #ff8a3d;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(255, 138, 61, 0.15);
+  }
+  .field textarea { min-height: 110px; resize: vertical; }
+  .field .hint { font-size: 12px; color: #8a6f50; margin-top: 4px; }
+  .field.error input, .field.error textarea {
+    border-color: #e34d2b;
+    background: #fff4f0;
+  }
+  .field .err-msg {
+    display: none;
+    color: #c62a00;
+    font-size: 12.5px;
+    margin-top: 4px;
+  }
+  .field.error .err-msg { display: block; }
+
+  .question-box {
+    background: linear-gradient(135deg, #fff7ec 0%, #ffeed1 100%);
+    padding: 18px 18px 6px;
+    border-radius: 16px;
+    border-left: 4px solid #ff8a3d;
+    margin-bottom: 16px;
+  }
+  .question-box .q-title {
+    font-weight: 600;
+    color: #7a4b15;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .form-actions .right { display: flex; gap: 10px; }
+
+  .submit-status {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    display: none;
+  }
+  .submit-status.show { display: block; }
+  .submit-status.error { background: #fff0eb; color: #c62a00; border: 1px solid #ffc4ad; }
+  .submit-status.info  { background: #fff7ec; color: #7a4b15; border: 1px solid #ffd9aa; }
+
+  /* ===== Thank You Page ===== */
+  .thanks {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 20px;
+    background:
+      radial-gradient(circle at 50% 0%, #ffd166 0%, transparent 50%),
+      linear-gradient(180deg, #fff8ee 0%, #ffe7c8 100%);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .thanks-card {
+    background: #fff;
+    padding: 56px 40px;
+    border-radius: 28px;
+    max-width: 560px;
+    box-shadow: 0 30px 80px rgba(120, 50, 0, 0.15);
+    position: relative;
+    z-index: 2;
+  }
+  .check-anim {
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 24px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff5722, #ff9800);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    box-shadow: 0 14px 30px rgba(255, 87, 34, 0.4);
+    animation: pop 0.6s cubic-bezier(.2,1.4,.4,1);
+  }
+  @keyframes pop {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .thanks h2 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #b34a00;
+    margin-bottom: 12px;
+  }
+  .thanks p {
+    color: #6e5236;
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+  .thanks .small { font-size: 13.5px; color: #8a6f50; margin-top: 18px; }
+
+  /* Confetti dots */
+  .confetti {
+    position: absolute;
+    width: 10px; height: 10px; border-radius: 2px;
+    animation: fall 4s linear infinite;
+    opacity: 0.85;
+  }
+  @keyframes fall {
+    0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(540deg); opacity: 0; }
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 18px 16px;
+    font-size: 12.5px;
+    color: #8a6f50;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1: WELCOME ============ -->
+<section id="page-welcome" class="page active">
+  <div class="welcome">
+
+    <!-- Background SVG scene -->
+    <svg class="scene-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <!-- Sun rays -->
+      <defs>
+        <radialGradient id="sun" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"  stop-color="#fff7d6" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#ffd166" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="hill1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"  stop-color="#ff8c42"/>
+          <stop offset="100%" stop-color="#e8590b"/>
+        </linearGradient>
+        <linearGradient id="hill2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"  stop-color="#ffb347"/>
+          <stop offset="100%" stop-color="#ff8c42"/>
+        </linearGradient>
+      </defs>
+      <!-- Sun glow -->
+      <circle cx="1180" cy="180" r="320" fill="url(#sun)"/>
+      <!-- Sun -->
+      <circle cx="1180" cy="180" r="70" fill="#fff3b0" opacity="0.95"/>
+
+      <!-- Rolling hills -->
+      <path d="M0,720 C260,640 480,760 760,700 C1020,650 1240,760 1440,690 L1440,900 L0,900 Z" fill="url(#hill2)" opacity="0.55"/>
+      <path d="M0,790 C220,720 520,830 820,760 C1080,710 1280,820 1440,780 L1440,900 L0,900 Z" fill="url(#hill1)" opacity="0.7"/>
+
+      <!-- Plant / sprout (growth symbol) -->
+      <g transform="translate(160,640)" opacity="0.85">
+        <path d="M0,80 C-2,40 -2,10 0,-10" stroke="#7a4b15" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <path d="M0,30 C -30,10 -45,-10 -50,-30 C -25,-25 -5,-5 0,15 Z" fill="#7ed957"/>
+        <path d="M0,5  C  30,-15 45,-35 50,-55 C  25,-50 5,-30 0,-10 Z" fill="#9cdb6e"/>
+      </g>
+
+      <!-- People holding hands silhouettes -->
+      <g transform="translate(540,560)" fill="#5b2e0a" opacity="0.85">
+        <!-- Person 1 -->
+        <circle cx="0"  cy="0" r="22"/>
+        <path d="M-30,30 Q0,18 30,30 L34,140 Q0,150 -34,140 Z"/>
+        <!-- Person 2 -->
+        <circle cx="90" cy="-10" r="24"/>
+        <path d="M58,22 Q90,8 122,22 L128,140 Q90,152 52,140 Z"/>
+        <!-- Person 3 -->
+        <circle cx="180" cy="0" r="22"/>
+        <path d="M150,30 Q180,18 210,30 L214,140 Q180,150 146,140 Z"/>
+        <!-- Person 4 -->
+        <circle cx="270" cy="-12" r="24"/>
+        <path d="M238,22 Q270,8 302,22 L308,140 Q270,152 232,140 Z"/>
+        <!-- Linking hands lines -->
+        <path d="M30,80 L60,80" stroke="#5b2e0a" stroke-width="6" stroke-linecap="round"/>
+        <path d="M122,72 L150,80" stroke="#5b2e0a" stroke-width="6" stroke-linecap="round"/>
+        <path d="M214,80 L242,80" stroke="#5b2e0a" stroke-width="6" stroke-linecap="round"/>
+        <!-- Heart above middle -->
+        <path d="M120,-60 C 108,-78 80,-78 80,-52 C 80,-30 120,-12 120,-12 C 120,-12 160,-30 160,-52 C 160,-78 132,-78 120,-60 Z" fill="#e34d2b"/>
+      </g>
+    </svg>
+
+    <!-- Floating bubbles -->
+    <span class="bubble b1"></span>
+    <span class="bubble b2"></span>
+    <span class="bubble b3"></span>
+    <span class="bubble b4"></span>
+
+    <!-- Welcome content card -->
+    <div class="welcome-card">
+      <span class="badge">SOCIAL IMPACT · WE'RE HIRING</span>
+      <h1>ร่วมเป็นพลังขับเคลื่อนสังคม<br/>ผ่านพลังของ Content</h1>
+      <div class="role-tag">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        ตำแหน่ง: Content Creator
+      </div>
+      <p class="lead">
+        เราเชื่อว่าการสื่อสารที่ดี <b>เปลี่ยนแปลงโลกได้</b> ที่ <b>Social Impact Co., Ltd.</b>
+        เรารวมคนรุ่นใหม่ที่อยากใช้ความคิดสร้างสรรค์เพื่อสร้างประโยชน์ต่อชุมชนและสิ่งแวดล้อม
+        ถ้าคุณมีไฟ มีไอเดีย และเชื่อในพลังของคอนเทนต์ที่มีความหมาย — เราอยากรู้จักคุณ
+      </p>
+
+      <div class="pillars">
+        <div class="pillar"><span class="icon">🌱</span><div class="label">ยั่งยืน</div></div>
+        <div class="pillar"><span class="icon">🤝</span><div class="label">ร่วมมือ</div></div>
+        <div class="pillar"><span class="icon">✨</span><div class="label">สร้างสรรค์</div></div>
+      </div>
+
+      <button type="button" class="btn btn-primary" onclick="goTo('page-form')">
+        เริ่มสมัครงาน
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+  <footer>© 2026 Social Impact Co., Ltd. — Made with care.</footer>
+</section>
+
+
+<!-- ============ PAGE 2: APPLICATION FORM ============ -->
+<section id="page-form" class="page form-page">
+  <div class="form-wrapper">
+    <div class="form-header">
+      <h2>ใบสมัครตำแหน่ง Content Creator</h2>
+      <p>กรุณากรอกข้อมูลให้ครบถ้วน — ข้อมูลของคุณจะถูกเก็บเป็นความลับ</p>
+    </div>
+
+    <div class="progress">
+      <div class="progress-step active"></div>
+      <div class="progress-step active"></div>
+      <div class="progress-step"></div>
+    </div>
+
+    <form id="applyForm" class="form-card" novalidate>
+
+      <div class="section-title"><span class="num">1</span> ข้อมูลส่วนตัว</div>
+      <div class="field-grid">
+        <div class="field" id="f-firstName">
+          <label>ชื่อ <span class="req">*</span></label>
+          <input type="text" name="firstName" placeholder="กรอกชื่อจริง" autocomplete="given-name" />
+          <div class="err-msg">กรุณากรอกชื่อ</div>
+        </div>
+        <div class="field" id="f-lastName">
+          <label>นามสกุล <span class="req">*</span></label>
+          <input type="text" name="lastName" placeholder="กรอกนามสกุล" autocomplete="family-name" />
+          <div class="err-msg">กรุณากรอกนามสกุล</div>
+        </div>
+        <div class="field" id="f-phone">
+          <label>เบอร์โทรศัพท์ <span class="req">*</span></label>
+          <input type="tel" name="phone" placeholder="เช่น 0812345678" autocomplete="tel" />
+          <div class="err-msg">กรุณากรอกเบอร์โทรศัพท์ที่ถูกต้อง (9-10 หลัก)</div>
+        </div>
+        <div class="field" id="f-email">
+          <label>อีเมล <span class="req">*</span></label>
+          <input type="email" name="email" placeholder="name@example.com" autocomplete="email" />
+          <div class="err-msg">กรุณากรอกอีเมลที่ถูกต้อง</div>
+        </div>
+      </div>
+
+      <div class="section-title"><span class="num">2</span> คำถามจากเรา</div>
+      <p style="font-size:13.5px;color:#8a6f50;margin:-8px 0 18px;">
+        ตอบสั้นหรือยาวก็ได้ — เราอยากเข้าใจวิธีคิดของคุณ ไม่ใช่ความสมบูรณ์แบบ
+      </p>
+
+      <div class="question-box">
+        <div class="q-title">1️⃣ อะไรคือ "ประเด็นทางสังคม" ที่คุณรู้สึกอยากใช้พลังของคอนเทนต์เข้าไปขับเคลื่อนมากที่สุด และทำไม?</div>
+        <div class="field" id="f-q1">
+          <textarea name="q1" placeholder="เล่าให้เราฟังหน่อย..."></textarea>
+          <div class="err-msg">กรุณาตอบคำถามนี้</div>
+        </div>
+      </div>
+
+      <div class="question-box">
+        <div class="q-title">2️⃣ ถ้าได้รับโจทย์ให้สร้างคอนเทนต์ 1 ชิ้นเพื่อเปลี่ยนทัศนคติของคนต่อประเด็นที่ "เข้าใจยาก" หรือ "คนไม่อยากฟัง" คุณจะออกแบบมันอย่างไร?</div>
+        <div class="field" id="f-q2">
+          <textarea name="q2" placeholder="ไอเดีย / รูปแบบ / ช่องทาง..."></textarea>
+          <div class="err-msg">กรุณาตอบคำถามนี้</div>
+        </div>
+      </div>
+
+      <div class="question-box">
+        <div class="q-title">3️⃣ สำหรับคุณ "ความสำเร็จ" ของคอนเทนต์เพื่อสังคม วัดจากอะไร — ยอด view ยอด engage หรือสิ่งใด?</div>
+        <div class="field" id="f-q3">
+          <textarea name="q3" placeholder="แชร์มุมมองของคุณ..."></textarea>
+          <div class="err-msg">กรุณาตอบคำถามนี้</div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="goTo('page-welcome')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+          ย้อนกลับ
+        </button>
+        <div class="right">
+          <button type="submit" id="submitBtn" class="btn btn-primary">
+            ส่งใบสมัคร
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="submitStatus" class="submit-status"></div>
+    </form>
+  </div>
+</section>
+
+
+<!-- ============ PAGE 3: THANK YOU ============ -->
+<section id="page-thanks" class="page thanks">
+  <!-- Confetti -->
+  <span class="confetti" style="left:6%;  background:#ff5722; animation-delay:0s;"></span>
+  <span class="confetti" style="left:18%; background:#ffb347; animation-delay:0.6s;"></span>
+  <span class="confetti" style="left:32%; background:#ffd166; animation-delay:1.2s;"></span>
+  <span class="confetti" style="left:46%; background:#7ed957; animation-delay:0.3s;"></span>
+  <span class="confetti" style="left:62%; background:#ff8a3d; animation-delay:1.5s;"></span>
+  <span class="confetti" style="left:78%; background:#ffd166; animation-delay:0.9s;"></span>
+  <span class="confetti" style="left:90%; background:#ff5722; animation-delay:0.2s;"></span>
+
+  <div class="thanks-card">
+    <div class="check-anim">
+      <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+    </div>
+    <h2>ได้รับข้อมูลการสมัครแล้ว</h2>
+    <p>กรุณารอการติดต่อกลับจากทีมงานของเรา</p>
+    <p style="margin-top:14px;">เราซาบซึ้งกับความตั้งใจของคุณ และจะอ่านทุกคำตอบอย่างใส่ใจ 💛</p>
+    <div class="small">
+      โดยทั่วไปเราจะติดต่อกลับภายใน 5-7 วันทำการ<br/>
+      Social Impact Co., Ltd.
+    </div>
+  </div>
+</section>
+
+
+<script>
+  // =========================================================
+  //  CONFIGURE THIS:
+  //  วาง Web App URL ของ Google Apps Script ที่ deploy แล้วลงตรงนี้
+  //  ดูคู่มือในไฟล์ google-apps-script-setup.md
+  // =========================================================
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxh7x75H3pVqeQMKD-lcLvYg6kOTQndz7ytGJ280NXO5IXgPfgLO9SXLKm9GqocwGM/exec";
+
+  // ----- Page navigation -----
+  function goTo(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ----- Validation helpers -----
+  function setFieldError(id, hasError) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.toggle('error', hasError);
+  }
+  function isValidEmail(v) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+  }
+  function isValidPhone(v) {
+    const cleaned = v.replace(/[\s-]/g, '');
+    return /^\+?\d{9,12}$/.test(cleaned);
+  }
+
+  // ----- Submission -----
+  const form   = document.getElementById('applyForm');
+  const status = document.getElementById('submitStatus');
+  const submitBtn = document.getElementById('submitBtn');
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    status.className = 'submit-status';
+    status.textContent = '';
+
+    const data = Object.fromEntries(new FormData(form).entries());
+    let valid = true;
+
+    // Required text fields
+    [['firstName','f-firstName'],['lastName','f-lastName'],
+     ['q1','f-q1'],['q2','f-q2'],['q3','f-q3']].forEach(([name, id]) => {
+      const ok = data[name] && data[name].trim().length > 0;
+      setFieldError(id, !ok);
+      if (!ok) valid = false;
+    });
+
+    // Phone
+    const phoneOk = data.phone && isValidPhone(data.phone);
+    setFieldError('f-phone', !phoneOk);
+    if (!phoneOk) valid = false;
+
+    // Email
+    const emailOk = data.email && isValidEmail(data.email);
+    setFieldError('f-email', !emailOk);
+    if (!emailOk) valid = false;
+
+    if (!valid) {
+      status.classList.add('show', 'error');
+      status.textContent = 'กรุณาตรวจสอบข้อมูลที่ทำเครื่องหมายสีแดงด้านบน';
+      // scroll to first error
+      const firstError = document.querySelector('.field.error');
+      if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'กำลังส่ง...';
+    status.classList.add('show', 'info');
+    status.textContent = 'กำลังส่งข้อมูล กรุณารอสักครู่...';
+
+    // Add metadata
+    data.submittedAt = new Date().toISOString();
+    data.position    = 'Content Creator';
+
+    try {
+      if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.startsWith('PASTE_')) {
+        // Fallback: log to console (used during local preview before deployment)
+        console.warn('Apps Script URL not configured — showing thank-you page anyway. Data:', data);
+      } else {
+        // Apps Script Web App expects a POST. Use no-cors so the browser
+        // doesn't block the redirect response. We can't read the response,
+        // but Apps Script will still receive and write the row.
+        await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(data)
+        });
+      }
+      goTo('page-thanks');
+      form.reset();
+    } catch (err) {
+      console.error(err);
+      status.classList.remove('info');
+      status.classList.add('show','error');
+      status.textContent = 'เกิดข้อผิดพลาดในการส่งข้อมูล กรุณาลองใหม่อีกครั้ง';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'ส่งใบสมัคร';
+    }
+  });
+
+  // Clear error highlight while user is typing
+  form.addEventListener('input', (e) => {
+    const wrap = e.target.closest('.field');
+    if (wrap) wrap.classList.remove('error');
+  });
+</script>
+
+</body>
+</html>
